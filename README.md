@@ -9,9 +9,9 @@ NAT Slipstreaming
 
 **Source code**: <https://github.com/samyk/slipstream>
 
-**Exploit server**: <https://samy.pl/slipstream/server>
+**Proof of concept**: <https://samy.pl/slipstream/server>
 
-**Tested on latest versions of**: Chrome, Safari, Firefox, Brave, Edge, IE
+**Tested on latest versions of**: Chrome, Safari, Firefox, Edge, IE
 
 <!-- ![NAT architecture](img/natarch.png) -->
 [![NAT Slipstreaming architecture](img/pinstatic.png)](https://samy.pl/slipstream/)
