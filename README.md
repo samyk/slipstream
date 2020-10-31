@@ -9,7 +9,6 @@ NAT Slipstreaming
 
 **Source code**: <https://github.com/samyk/slipstream>
 
-**Proof of concept**: <https://samy.pl/slipstream/server>
 
 <!-- ![NAT architecture](img/natarch.png) -->
 [![NAT Slipstreaming architecture](img/pinstatic.png)](https://samy.pl/slipstream/)
@@ -52,11 +51,11 @@ This also contains new techniques for discovering a victim's local IP address an
 
 **At a high level, NAT Slipstreaming works like so:**
 
-- victim visits malicious site (or site with malicious advertisement), eg [https://samy.pl/slipstream/](https://samy.pl/slipstream/server)
+- victim visits malicious site (or site with malicious advertisement), eg [https://samy.pl/slipstream/server](https://samy.pl/slipstream/server)
 - internal IP of victim first must be extracted by browser and sent to server
   - internal IP attempted to be extracted via [WebRTC](https://www.w3.org/TR/webrtc/) data channel over https
-    - but some browsers (Chrome) only divulge the local IP via WebRTC over HTTPS, but some of our attacks require HTTP, so we first redirect to the HTTPS version of the attack software to extract the local IP
-    - we then redirect to the HTTP version with the local IP included in the URL if we were able to obtain it to bypass other cross-origin protection mechanisms (the `.local` mDNS/Bonjour address presented will not be useful for the attack)
+      - some browsers (Chrome) only divulge the local IP via WebRTC over HTTPS but some of our attacks require HTTP so we first redirect to the HTTPS version of the attack software to extract the local IP
+      - we then redirect to the HTTP version with the local IP included in the URL if we were able to obtain it to bypass other cross-origin protection mechanisms (the `.local` mDNS/Bonjour address presented will not be useful for the attack)
   - if internal IP not divulged by WebRTC (Safari) or no WebRTC (<= IE11), **web-based TCP timing attack performed**
      - hidden `img` tags to all common gateways (eg `192.168.0.1`) are loaded in background
      - `onerror/onsuccess` events attached to `img` tags
@@ -71,7 +70,7 @@ This also contains new techniques for discovering a victim's local IP address an
 - "SIP packet" in new hidden form generated, containing internal IP to trigger Application Level Gateway connection tracking
   - "HTTP POST" to server on TCP port 5060 (SIP port) initiated, avoiding [restricted browser ports](https://github.com/samyk/chromium/blob/2d57e5b8afc6d01b344a8d95d3470d46b35845c5/net/base/port_util.cc#L20-L90)
   - POST data is "stuffed" to exact TCP segment size / packet boundary, then "SIP packet" appended and posted via web form
-  - victim IP stack breaks POST into multiple TCP packets, leaving "SIP packet" (as part of POST data) in its own TCP packet
+  - victim IP stack breaks POST into multiple TCP packets, leaving "SIP packet" (as part of POST data) in its own TCP packet without any HTTP headers
   - if browser alters size of multipart/form boundary (Firefox) or packet size changes for any other reason, size change is communicated back to client and client auto-resends with new size
   - when opening UDP port, SIP packet is sent over TURN protocol inside specially crafted `username` field forcing IP fragmentation and precise boundary control
 - victim NAT sees proper SIP REGISTER packet on SIP port (with no HTTP data), triggering ALG to open any TCP/UDP port defined in packet back to victim
@@ -466,9 +465,9 @@ At a high level, we can't control the start of the TCP packet, but what if we se
 
 Well, we would need to know how much data the browser will send, which will be different per browser, and even by user as they may send different HTTP headers. HTTPS won't work as most of the content is encrypted, where an HTTP POST allows us to control a large portion of the header.
 
-To get the general size of the packet, we send a **large** (6000 byte) HTTP POST with an ID and padding data with a hidden web form to our http://our.attack.server:5060/pktsize. On the attack server, we run a [packet sniffer](TODO) which looks for the boundaries of our packet to determine MTU (Maximum Transmission Unit) size, IP header size, potential IP options, TCP header size, potential TCP options, data packet size, and what portion of the packet we control.
+To get the general size of the packet, we send a **large** (6000 byte) HTTP POST with an ID and padding data with a hidden web form to our http://our.attack.server:5060/pktsize. On the attack server, we run a [packet sniffer](https://github.com/samyk/slipstream/blob/main/max_pkt_size.pl) which looks for the boundaries of our packet to determine MTU (Maximum Transmission Unit) size, IP header size, potential IP options, TCP header size, potential TCP options, data packet size, and what portion of the packet we control.
 
-We also run a [custom server](TODO) that listens on TCP port 5060, and responds with HTTP traffic to appease the browser so nothing looks fishy on the client side (a server with a malformed response would cause errors in the console, or an incorrectly responding server would keep the status spinner going).
+We also run a [custom server](https://github.com/samyk/slipstream/blob/main/serv-sip.pl) that listens on TCP port 5060, and responds with HTTP traffic to appease the browser so nothing looks fishy on the client side (a server with a malformed response would cause errors in the console, or an incorrectly responding server would keep the status spinner going).
 
 ![POST large form to measure MTU and TCP data size](img/sniff2.png)
 
@@ -510,7 +509,7 @@ As of today, using WebRTC to get the local IP address on Chrome, rather than a `
 
 If using Safari, IE <= 11, or others that don't support WebRTC or intentionally don't reveal internal IP (Safari), we can use a web timing attack to reveal the victim's internal IP address.
 
-We manage this by first producing hidden HTML `<img>` tags on the page, all to common gateways (192.168.*.1, 10.0.0.1, and [others TODO link to natpin github routers code](TODO)), along with Javascript `onsuccess` and `onerror` events. Each time an img is written to the page, a timer is started and if the `onsuccess` loads, that means the IP responded with a web server, and if no web server is running but the IP is on the network, it will send a TCP RST (reset, meaning port not open) back, triggering the `onerror`. If no IP exists, no RST is sent and the response will take > 1 second, at which point we know the IP doesn't exist on our network.
+We manage this by first producing hidden HTML `<img>` tags on the page, all to common gateways (192.168.*.1, 10.0.0.1, and [others](https://github.com/samyk/slipstream/blob/main/server#L159)), along with Javascript `onsuccess` and `onerror` events. Each time an img is written to the page, a timer is started and if the `onsuccess` loads, that means the IP responded with a web server, and if no web server is running but the IP is on the network, it will send a TCP RST (reset, meaning port not open) back, triggering the `onerror`. If no IP exists, no RST is sent and the response will take > 1 second, at which point we know the IP doesn't exist on our network.
 
 Once we see one of these events trigger, we know a potential internal subnet we're on, then we perform the same attack for every IP on the subnet (eg, 192.168.0.[2-255]), and this time perform a more precise timing to determine which IP responds **fastest**. This is most likely our own (victim) internal IP, as we don't even need to leave the network interface. Even if we aren't first for some reason, we still attempt our attack on all IPs that responded on the network.
 
@@ -545,6 +544,8 @@ These are not used in this attack, but are interesting nonetheless and could pot
 # Download
 
 Thanks for reading! You can download the proof of concept code from my [NAT Slipstream github](https://github.com/samyk/slipstream).
+
+**Proof of concept**: <https://samy.pl/slipstream/server>
 
 # Contact
 
