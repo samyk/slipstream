@@ -11,8 +11,6 @@ NAT Slipstreaming
 
 **Proof of concept**: <https://samy.pl/slipstream/server>
 
-**Tested on latest versions of**: Chrome, Safari, Firefox, Edge, IE
-
 <!-- ![NAT architecture](img/natarch.png) -->
 [![NAT Slipstreaming architecture](img/pinstatic.png)](https://samy.pl/slipstream/)
 *[animated version here](https://samy.pl/slipstream/) generated with [my fork](https://github.com/samyk/drawio) of [draw.io](draw.io), allowing exportable edge context flow & control in animations*
