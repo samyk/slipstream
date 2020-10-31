@@ -1,0 +1,2 @@
+turnserver -v --syslog --cli-password secred --max-bps=3000000 --fingerprint --relay-threads 3 --min-port=31337 --max-port=32000 --db="var/db/turndb" --user samy:lol --realm coolrealm --lt-cred-mech
+#turnserver -v --syslog --cli-password secred --max-bps=3000000 --fingerprint --relay-threads 3 --min-port=31337 --max-port=32000 --no-tls --no-dtls --db="var/db/turndb" --user samy:lol --realm coolrealm --lt-cred-mech
