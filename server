@@ -696,13 +696,22 @@ function startStun()
 // redirect to http with our internal ip (if we have one)
 function gohttp()
 {
-  if (window.location.protocol === 'https:')
+  return go('http')
+}
+function gohttps()
+{
+  return go('https')
+}
+function go(type)
+{
+  var other = type === 'http' ? 'https' : 'http'
+  if (window.location.protocol === other + ':')
   {
     var search = window.location.search ? window.location.search + '&' : '?'
     var intip = internals.length ? internals.join(',') : NOPE
     search += 'localip=' + intip
     log('redirecting to http including local ip address: ' + intip)
-    window.location = 'http://' + window.location.host + window.location.pathname + search + window.location.hash
+    window.location = type + '://' + window.location.host + window.location.pathname + search + window.location.hash
   }
 }
 
@@ -839,8 +848,7 @@ function rnd()
 
 function scanForIP(forced)
 {
-  if (window.location.protocol === 'https:')
-    window.location.protocol = 'http:'
+  gohttp()
   changeURL()
 	// don't double-scan
 	if (beginScan) return
