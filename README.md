@@ -461,7 +461,7 @@ Flash used to allow outbound sockets, but was in a format that we didn't have fu
 
 ## TCP Segmentation
 
-At a high level, we can't control the start of the TCP packet, but what if we send too big of a packet? There must be a maximum packet size...at which point, a packet must be fragmented into multiple packets. **If we can overflow the TCP packet size and precisely control part of the data, could we cause packet segmentation and have our data be at the very beginning of our next, overflowed packet?**
+At a high level, we can't control the start of the TCP packet, but what if we send too large of a packet? There must be a maximum packet size...at which point, a packet must be fragmented into multiple packets. **If we can overflow the TCP packet size and precisely control part of the data, could we cause packet segmentation and have our data be at the very beginning of our next, overflowed packet?**
 
 Well, we would need to know how much data the browser will send, which will be different per browser, and even by user as they may send different HTTP headers. HTTPS won't work as most of the content is encrypted, where an HTTP POST allows us to control a large portion of the header.
 
@@ -549,30 +549,4 @@ Thanks for reading! You can download the proof of concept code from my [NAT Slip
 
 **Point of Contact:** [@SamyKamkar](https://twitter.com/samykamkar)
 
-You can see more of my projects at <https://samy.pl> or (potentially) reach me at <code@samy.pl>.
-
------------------
-
-```
-too late...
-TODO explain ftp alg (sequence chart) in connection tracking section
-TODO example code in timing attack - allow user to try it
-TODO packet viewer?
-TODO show connection tracking working (interactively?)
-- manim make packet structure
-- manim sequence diagram?
-- 3way handshake for segment size option
-- show tuple in table
-TODO dark mode (and img)
-TODO switch to websockets?
-TODO Portscan with websockets?
-TODO add versions to browsers tested
-TODO demo blocked port bypass?
-TODO fix up other todos
-TODO make lightbox not take up so much space
-TODO image of lightbox for github?
-TODO spellcheck
-TODO make links open new window
-TODO regenerate toc (how?)
-TODO test opera
-```
+Find more of my projects at <https://samy.pl> or potentially reach me at <code@samy.pl>.
