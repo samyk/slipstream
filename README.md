@@ -51,7 +51,7 @@ This attack requires the NAT/firewall to support ALG (Application Level Gateways
 
 **At a high level, NAT Slipstreaming works like so:**
 
-- victim visits malicious site (or site with malicious advertisement), eg [https://samy.pl/slipstream/server](https://samy.pl/slipstream/server)
+- victim visits malicious site (or site with malicious advertisement)
 - internal IP of victim first must be extracted by browser and sent to server
   - internal IP attempted to be extracted via [WebRTC](https://www.w3.org/TR/webrtc/) data channel over https
       - some browsers (Chrome) only divulge the local IP via WebRTC over HTTPS but some of our attacks require HTTP so we first redirect to the HTTPS version of the attack software to extract the local IP
