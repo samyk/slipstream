@@ -355,7 +355,7 @@ SIP lives on TCP/UDP 5060, but media like RTP (audio) is sent on alternate ports
 
 Assuming NATs reader SIP packets line by line (SIP is newline-based like HTTP and is not a binary protocol), perhaps it will ignore the HTTP header and once it gets to the POST data, read the REGISTER and believe it's a SIP packet. This worked in our 2010 version for the IRC DCC. The NAT ignored the HTTP header and just parsed the IRC DCC command.
 
-Funny thing, this also allowed us to actually make users who visit our site connect to a *legitimate* IRC server, join a channel, and send a message from their IP without them knowing! :P I demo'd this technique fo sending email to mail servers with client IP addresses before port 25 was blocked by browsers and before SPF records were common...craziness.
+Funny thing, this also allowed us to actually make users who visit our site connect to a *legitimate* IRC server, join a channel, and send a message from their IP without them knowing! :P I demo'd this technique for sending email to mail servers with client IP addresses before port 25 was blocked by browsers and before SPF records were common...craziness.
 
 Now, in a quick test, sending a SIP REGISTER packet over port 5060 through an HTTP POST doesn't seem to work...perhaps we're missing something from the packet.
 
