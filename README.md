@@ -38,7 +38,8 @@ Table of Contents
       * [Browser Protocol Confusion](#browser-protocol-confusion)
          * [Live Browser Packet Alteration](#live-browser-packet-alteration)
    * [Other Findings](#other-findings)
-   * [Example / Download](#example--download)
+   * [Download](#Download)
+   * [Example](#Example)
    * [Contact](#contact)
 
 # Summary
@@ -544,6 +545,18 @@ These are not used in this attack, but are interesting nonetheless and could pot
 # Download
 
 Thanks for reading! You can download the proof of concept code from my [NAT Slipstream github](https://github.com/samyk/slipstream).
+
+# Example
+
+Normal example:
+```
+https://samy.pl/slipstream/server
+```
+
+Setting a local IP address when it cannot be obtained in the browser (IP v6 has been detected instead?)
+```
+https://samy.pl/slipstream/server?localip=192.168.1.1 
+```
 
 # Contact
 
