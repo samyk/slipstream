@@ -47,7 +47,7 @@ NAT Slipstreaming exploits the user's browser in conjunction with the Applicatio
 
 This attack takes advantage of arbitrary control of the data portion of some TCP and UDP packets <i>without</i> including HTTP or other headers; the attack performs this new packet injection technique across all major modern (and older) browsers, and is a modernized version to my original <a target=_blank href="https://samy.pl/natpin/">NAT Pinning technique from 2010</a> (presented at DEFCON 18 + Black Hat 2010). Additionally, new techniques for local IP address discovery are included.
 
-This attck requires the NAT/firewall to support ALG (Application Level Gateways), which are mandatory for protocols that can use multiple ports (control channel + data channel) such as SIP and H323 (VoIP protocols), FTP, IRC DCC, etc.
+This attack requires the NAT/firewall to support ALG (Application Level Gateways), which are mandatory for protocols that can use multiple ports (control channel + data channel) such as SIP and H323 (VoIP protocols), FTP, IRC DCC, etc.
 
 **At a high level, NAT Slipstreaming works like so:**
 
