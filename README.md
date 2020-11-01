@@ -45,9 +45,9 @@ Table of Contents
 
 NAT Slipstreaming exploits the user's browser in conjunction with the Application Level Gateway (ALG) connection tracking mechanism built into NATs, routers, and firewalls by chaining internal IP extraction via timing attack or WebRTC, automated remote MTU and IP fragmentation discovery, TCP packet size massaging, TURN authentication misuse, precise packet boundary control, and protocol confusion through browser abuse.
 
-This works across all major modern (and older) browsers as of 2020, and is modernized version to my original [NAT Pinning technique from 2010](https://samy.pl/natpin/) (presented at DEFCON 18 + Black Hat 2010). This requires the NAT/firewall to support ALG (Application Level Gateways), which are mandatory for protocols that can use multiple ports (control channel + data channel) such as SIP and H323 (VoIP protocols), FTP, IRC DCC, etc.
+This attack takes advantage of arbitrary control of the data portion of some TCP and UDP packets <i>without</i> including HTTP or other headers; the attack performs this new packet injection technique across all major modern (and older) browsers, and is a modernized version to my original <a target=_blank href="https://samy.pl/natpin/">NAT Pinning technique from 2010</a> (presented at DEFCON 18 + Black Hat 2010). Additionally, new techniques for local IP address discovery are included.
 
-This also contains new techniques for discovering a victim's local IP address and forcing the victim to transmit arbitrary data in TCP and UDP packets by the user visiting a page.
+This attck requires the NAT/firewall to support ALG (Application Level Gateways), which are mandatory for protocols that can use multiple ports (control channel + data channel) such as SIP and H323 (VoIP protocols), FTP, IRC DCC, etc.
 
 **At a high level, NAT Slipstreaming works like so:**
 
