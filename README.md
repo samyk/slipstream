@@ -525,7 +525,7 @@ On our attack server, because we can see the packets come in, we look to see if 
 
 The client code automatically adjusts its packet size to the new size only after two failures in a row. Some browsers (Firefox) will sometimes have a slightly different packet size due to the multipart-boundary they generate for the form, which unlike most other browsers, is not a fixed length. I find after about 10 tries, the same size will be used and the attack will succeed.
 
-Once the SIP packet lands on the packet boundary, the NAT will be deceived, believing this is a legitimate SIP registeration and from a SIP client on the victim's machine. Once our server responds with a proper SIP response (nested inside of a proper HTTP response to allow the browser to not detect anything fishy), the NAT will open up the port in the original packet we had the victim send and the router will now **forward any port the attacker chooses back to the internal victim, all from simply browsing to a website**.
+Once the SIP packet lands on the packet boundary, the NAT will be deceived, believing this is a legitimate SIP registration and from a SIP client on the victim's machine. Once our server responds with a proper SIP response (nested inside of a proper HTTP response to allow the browser to not detect anything fishy), the NAT will open up the port in the original packet we had the victim send and the router will now **forward any port the attacker chooses back to the internal victim, all from simply browsing to a website**.
 
 Attack complete. Attacker can now connect to arbitrary TCP/UDP services running on victim.
 
