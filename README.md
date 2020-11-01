@@ -70,7 +70,7 @@ This attck requires the NAT/firewall to support ALG (Application Level Gateways)
 - "SIP packet" in new hidden form generated, containing internal IP to trigger Application Level Gateway connection tracking
   - "HTTP POST" to server on TCP port 5060 (SIP port) initiated, avoiding [restricted browser ports](https://github.com/samyk/chromium/blob/2d57e5b8afc6d01b344a8d95d3470d46b35845c5/net/base/port_util.cc#L20-L90)
   - POST data is "stuffed" to exact TCP segment size / packet boundary, then "SIP packet" appended and posted via web form
-  - victim IP stack breaks POST into multiple TCP packets, leaving "SIP packet" (as part of POST data) in its own TCP packet without any HTTP headers
+  - <b>victim IP stack breaks the POST into multiple TCP packets, leaving the "SIP packet" (as part of POST data) in its own TCP packet without any accompanying HTTP headers</b>
   - if browser alters size of multipart/form boundary (Firefox) or packet size changes for any other reason, size change is communicated back to client and client auto-resends with new size
   - when opening UDP port, SIP packet is sent over TURN protocol inside specially crafted `username` field forcing IP fragmentation and precise boundary control
 - victim NAT sees proper SIP REGISTER packet on SIP port (with no HTTP data), triggering ALG to open any TCP/UDP port defined in packet back to victim
