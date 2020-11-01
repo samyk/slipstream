@@ -473,7 +473,7 @@ We also run a [custom server](https://github.com/samyk/slipstream/blob/main/serv
 
 We further attempt to control the TCP packet data size by sending a Maximum Segment Size (mss) TCP Option during the initial SYN response to manipulate the victim's outbound packet sizes ([RFC 793 x3.1](https://tools.ietf.org/html/rfc793#section-3.1)). This tells the victim machine to keep TCP packets to a certain size.
 
-![Custom Maximum Segment Size (img/mss)](sniff1.png)
+![Custom Maximum Segment Size (img/sniff1.png)](img/sniff1.png)
 
 You can do this on Linux by appending `advmss <size>` to `ip route`. We'll use 1500.
 
