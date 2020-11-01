@@ -38,7 +38,7 @@ then hit the button below<br>
 
 function q2d($ip)
 {
-	$ips = split ("\.", $ip);
+	$ips = explode (".", $ip);
 	return ($ips[3] + $ips[2] * 256 + $ips[1] * 256 * 256 + $ips[0] * 256 * 256 * 256); 
 }
 $ip = q2d(getenv('REMOTE_ADDR'));
