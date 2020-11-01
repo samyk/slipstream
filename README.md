@@ -76,7 +76,7 @@ This attck requires the NAT/firewall to support ALG (Application Level Gateways)
 - victim NAT sees proper SIP REGISTER packet on SIP port (with no HTTP data), triggering ALG to open any TCP/UDP port defined in packet back to victim
   - victim NAT rewrites SIP packet, replacing internal IP with public IP, hinting to attacker exploit was successful
   - even if victim NAT normally rewrites source ports, the ALG will still be forced to port forward to the attacker's port of choice as it believes victim machine opened that port and attacker sees new source port in arriving SIP packet 
-  - attacker can now bypass victim NAT and connect directly back to any port on victim's machine, exposing previously protected/hidden services
+  - <b>attacker can now bypass victim NAT and connect directly back to any port on victim's machine, exposing previously protected/hidden services</b>
 
 [![successful packet broken into valid SIP packet](img/pinpkt2.png)](img/pinpkt2.png)
 
