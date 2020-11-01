@@ -553,7 +553,7 @@ Normal example:
 https://samy.pl/slipstream/server
 ```
 
-Setting a local IP address when it cannot be obtained in the browser (IP v6 has been detected instead?)
+Setting a local IP address when it cannot be obtained:
 ```
 https://samy.pl/slipstream/server?localip=192.168.1.1 
 ```
