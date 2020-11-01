@@ -108,7 +108,7 @@ firewall.
 
 If a machine behind your NAT sends a packet out and your router expects the remote host may respond, it keeps track of information, specifically the source and destination ports, source and destination IP addresses, and your internal IP, then returns any packets matching it back to your internal IP.
 
-If another host on your LAN attempts to make the same connection with the same source and destination ports + IPs, your NAT wouldn't be able to discriminate it, so it alters the source port, but rewrites it when sending back to you.
+If another host on your LAN attempts to make the same connection with the same source and destination ports + IPs, your NAT wouldn't be able to discriminate it (the source IPs are different on your LAN but are rewritten to the same public IP on the WAN side), so it alters the source port, but rewrites it when sending back to you.
 
 ### Application Level Gateway
 
