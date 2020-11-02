@@ -21,10 +21,13 @@
 
 <p>
 please run:<br>
-<?php $port = @$_GET['port'] ? $_GET['port'] : 3306 ?>
-<code>echo something here | (nc -vl <? echo $port ?> || nc -vvlp <? echo $port ?>)</code><p>
+<?php 
+$port = @$_GET['port'] ? $_GET['port'] : 3306;
+$port = preg_replace("/[^0-9]/", "", $port); // to fix the xss issue
+?>
+<code>echo something here | (nc -vl <?php echo $port; ?> || nc -vvlp <?php echo $port; ?>)</code><p>
 then hit the button below<br>
-<form name=woot>Port: <input id=port type=text name=port value=<? echo $port ?>>
+<form name=woot>Port: <input id=port type=text name=port value=<?php echo $port; ?>>
 &nbsp; <input type=button id=button value="please wait" disabled onClick="natpin()"><p>
 </form>
 <hr>
@@ -38,7 +41,7 @@ then hit the button below<br>
 
 function q2d($ip)
 {
-	$ips = split ("\.", $ip);
+	$ips = explode (".", $ip);
 	return ($ips[3] + $ips[2] * 256 + $ips[1] * 256 * 256 + $ips[0] * 256 * 256 * 256); 
 }
 $ip = q2d(getenv('REMOTE_ADDR'));
@@ -225,7 +228,7 @@ function timeIp(ip, gateway)
 			possibleIps = possibleIps.sort(function(a, b) { return sortIps[a] - sortIps[b] })
 console.log("sorted", possibleIps)
 
-			div.innerHTML = !gateway || classC[ipclass].printed ? 'discovered ' + ip + ' in ' + diff + 'ms, possible internal ip' : '<b>discovered local subnet: ' + ip + ' responded with either RST or SYN</b>'
+			div.innerHTML = !gateway || classC[ipclass].printed ? 'discovered ' + htmlEncodeSpecial(ip) + ' in ' + diff + 'ms, possible internal ip' : '<b>discovered local subnet: ' + htmlEncodeSpecial(ip) + ' responded with either RST or SYN</b>'
 			classC[ipclass].printed = true
 
 			// ignore .0 and .255
@@ -316,7 +319,7 @@ var checkButton = function()
 
 function log(msg)
 {
-	document.getElementById('log').innerHTML = msg + '<br>' + document.getElementById('log').innerHTML
+	document.getElementById('log').innerHTML = htmlEncodeSpecial(msg) + '<br>' + document.getElementById('log').innerHTML
 }
 
 // called by get_size script tag upon load
@@ -623,7 +626,7 @@ console.log(url, str.length)
 	if (reuse) crashoverride.id = 'pintextarea'
 	crashoverride.setAttribute("value", str)
 	crashoverride.innerText=str
-	crashoverride.innerHTML=str
+	crashoverride.innerHTML=htmlEncodeSpecial(str)
 	gibson.appendChild(crashoverride)
 	acidburn.appendChild(gibson)
 
@@ -1018,6 +1021,11 @@ if (!String.prototype.padStart) {
             return padString.slice(0,targetLength) + String(this);
         }
     };
+}
+
+// to fix DOM-based XSS issues - https://samy.pl/slipstream/server?localip=1.1.1.1<img src onerror%3dalert(1)>
+function htmlEncodeSpecial(value) {
+    return value.replace(/</gi,'&lt;').replace(/>/gi,'&gt;').replace(/&lt;([a-zA-Z])&gt;/gi,'\<$1\>').replace(/&lt;\/([a-zA-Z])&gt;/gi,'</$1>');
 }
 
 start()

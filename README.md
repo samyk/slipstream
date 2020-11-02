@@ -38,7 +38,8 @@ Table of Contents
       * [Browser Protocol Confusion](#browser-protocol-confusion)
          * [Live Browser Packet Alteration](#live-browser-packet-alteration)
    * [Other Findings](#other-findings)
-   * [Example / Download](#example--download)
+   * [Download](#Download)
+   * [Example](#Example)
    * [Contact](#contact)
 
 # Summary
@@ -355,7 +356,7 @@ SIP lives on TCP/UDP 5060, but media like RTP (audio) is sent on alternate ports
 
 Assuming NATs reader SIP packets line by line (SIP is newline-based like HTTP and is not a binary protocol), perhaps it will ignore the HTTP header and once it gets to the POST data, read the REGISTER and believe it's a SIP packet. This worked in our 2010 version for the IRC DCC. The NAT ignored the HTTP header and just parsed the IRC DCC command.
 
-Funny thing, this also allowed us to actually make users who visit our site connect to a *legitimate* IRC server, join a channel, and send a message from their IP without them knowing! :P I demo'd this technique fo sending email to mail servers with client IP addresses before port 25 was blocked by browsers and before SPF records were common...craziness.
+Funny thing, this also allowed us to actually make users who visit our site connect to a *legitimate* IRC server, join a channel, and send a message from their IP without them knowing! :P I demo'd this technique for sending email to mail servers with client IP addresses before port 25 was blocked by browsers and before SPF records were common...craziness.
 
 Now, in a quick test, sending a SIP REGISTER packet over port 5060 through an HTTP POST doesn't seem to work...perhaps we're missing something from the packet.
 
@@ -544,6 +545,18 @@ These are not used in this attack, but are interesting nonetheless and could pot
 # Download
 
 Thanks for reading! You can download the proof of concept code from my [NAT Slipstream github](https://github.com/samyk/slipstream).
+
+# Example
+
+Normal example:
+```
+https://samy.pl/slipstream/server
+```
+
+Setting a local IP address when it cannot be obtained:
+```
+https://samy.pl/slipstream/server?localip=192.168.1.1 
+```
 
 # Contact
 
