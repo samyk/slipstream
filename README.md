@@ -489,7 +489,7 @@ Some NATs only allow UDP ports to be accessed if the SIP connection was original
 
 TURN allows authentication via username and password, the username is sent in cleartext. Interestingly, the username is not limited by any size or characters, so we can use this to perform the same type of packet overflow.
 
-Since TURN is over UDP, the IP packet itself will get fragmented if overflowing over the MTU size (UDP doens't support segmentation). The 2nd packet will have not only the data portion under our control, but the UDP header as well! This is not important for our attack, but is interesting and can definitely produce alternate attacks. Ultimately we can perform the same attack through UDP by aligning our packet boundary based off of calculated MTU size rather than MSS size, making our SIP UDP packet live on the 2nd packet boundary (with a fake UDP header prepended) allowing us to forward UDP ports back to our vitim.
+Since TURN is over UDP, the IP packet itself will get fragmented if overflowing over the MTU size (UDP doesn't support segmentation). The 2nd packet will have not only the data portion under our control, but the UDP header as well! This is not important for our attack, but is interesting and can definitely produce alternate attacks. Ultimately we can perform the same attack through UDP by aligning our packet boundary based off of calculated MTU size rather than MSS size, making our SIP UDP packet live on the 2nd packet boundary (with a fake UDP header prepended) allowing us to forward UDP ports back to our vitim.
 
 ## TCP Timing Attack / Internal Subnet & IP Discovery
 
