@@ -77,6 +77,10 @@ This attack requires the NAT/firewall to support ALG (Application Level Gateways
   - victim NAT rewrites SIP packet, replacing internal IP with public IP, hinting to attacker exploit was successful
   - even if victim NAT normally rewrites source ports, the ALG will still be forced to port forward to the attacker's port of choice as it believes victim machine opened that port and attacker sees new source port in arriving SIP packet 
   - <b>attacker can now bypass victim NAT and connect directly back to any port on victim's machine, exposing previously protected/hidden services</b>
+- <i>to investigate...perhaps by you?</i>
+  - non-malicious usage: this technique essentially gives browsers full TCP and UDP socket capability to communicate to any protocol locally on the system; the connection can be abstracted through a cloud server that connects back but the browser just talks to the cloud server as if it's the socket and makes browsers much more powerful to communicate on non-web-friendly protocols
+  - if testing in a virtual machine (VM) using shared networking (used to protect a host from attacks by routing it through the host, not letting it directly onto the network), if the packets make it out, the parent host machine is where the ports end up getting opened, not the VM ;)
+  - IP fragmentation allows full control of all data in the IP data section, meaning full control of the <b>UDP header</b>, including source/dest ports in the overflowed packet...what else could this abuse?
 
 [![successful packet broken into valid SIP packet](img/pinpkt2.png)](img/pinpkt2.png)
 
