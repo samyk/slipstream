@@ -357,7 +357,7 @@ Checking our [restricted browser ports](https://github.com/samyk/chromium/blob/2
 
 SIP lives on TCP/UDP 5060, but media like RTP (audio) is sent on alternate ports that are generated on the fly. When sending a request for a SIP call, your SIP client chooses a random port, opens it, and includes it in the SIP header. Your NAT should also see it and open it up, assuming the SIP ALG is enabled (and is on most routers by default).
 
-Assuming NATs reader SIP packets line by line (SIP is newline-based like HTTP and is not a binary protocol), perhaps it will ignore the HTTP header and once it gets to the POST data, read the REGISTER and believe it's a SIP packet. This worked in our 2010 version for the IRC DCC. The NAT ignored the HTTP header and just parsed the IRC DCC command.
+Assuming NATs read SIP packets line by line (SIP is newline-based like HTTP and is not a binary protocol), perhaps it will ignore the HTTP header and once it gets to the POST data, read the REGISTER and believe it's a SIP packet. This worked in our 2010 version for the IRC DCC. The NAT ignored the HTTP header and just parsed the IRC DCC command.
 
 Funny thing, this also allowed us to actually make users who visit our site connect to a *legitimate* IRC server, join a channel, and send a message from their IP without them knowing! :P I demo'd this technique for sending email to mail servers with client IP addresses before port 25 was blocked by browsers and before SPF records were common...craziness.
 
@@ -368,7 +368,7 @@ Now, in a quick test, sending a SIP REGISTER packet over port 5060 through an HT
 var sipmsg = 'REGISTER sip:samy.pl;transport=TCP SIP/2.0\r\n' +
              'Contact: <sip:samy@192.168.0.109:1234;transport=TCP>\r\n\r\n'
 
-// load form in an iframe so user doesn't se it
+// load form in an iframe so user doesn't see it
 var iframe = document.createElement('iframe')
 iframe.name = 'iframe'
 iframe.style.display = 'none' // hide the iframe
