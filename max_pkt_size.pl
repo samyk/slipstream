@@ -4,6 +4,8 @@
 # nat slipstreaming sniffer
 # -samy kamkar, 4/7/2019
 
+my $serverName = "example.com"
+
 my $DEV = "eth0";
 my $ETH_LEN = 14;
 my $MTU = 1500;
@@ -37,7 +39,7 @@ my $PAD = "^_"; # \r\n";
 my $SCAN = 'SAMY_MAXPKTSIZE';
 my $BEGIN = "BEGIN_$SCAN=";
 my $END = "END_$SCAN";
-my $SIPURL = 'sip:samy.pl;transport';
+my $SIPURL = 'sip:' . $serverName . ';transport';
 my $filter_str = "port 5060";
 my $err = '';
 my $dev = pcap_lookupdev(\$err);  # find a device
@@ -157,7 +159,7 @@ sub process_packet
       addUser($max{$pktid}{id}, %{$max{$pktid}});
     }
 
-    # look for sip:samy.pl;transport SIP REGISTER packet
+    # look for sip:serverName;transport SIP REGISTER packet
     $ind = index($packet, $SIPURL);
     if ($ind >= 0)
     {
