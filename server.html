@@ -15,43 +15,22 @@
 	<a href="https://samy.pl/slipstream/">NAT Slipstreaming</a> allows an attacker to remotely access any TCP/UDP services bound to a victim machine, bypassing the victim's NAT/firewall (arbitrary firewall pinhole control), just by the victim visiting a website. <a href="https://samy.pl/slipstream/">Full writeup here.</a>
 	<p>
 		<a href="https://github.com/samyk/slipstream/">github.com/samyk/slipstream</a>: NAT Slipstreaming PoC code</a>
-	</p>
-	<p>
-		please run:
-		<br>
-		<?php 
-		$port = @$_GET['port'] ? $_GET['port'] : 3306;
-		$port = preg_replace("/[^0-9]/", "", $port); // to fix the xss issue
-		?>
-		<code>
-			echo something here | (nc -vl
-			<?php echo $port; ?> || nc -vvlp
-			<?php echo $port; ?>)
-		</code>
-	</p>
-	<p>
-		then hit the button below
-		<br>
-		<form name=woot>
-			Port: 
-			<input id=port type=text name=port value="<?php echo $port; ?>">
-			&nbsp; 
-			<input type=button id=button value="please wait" disabled onClick="natpin()">
-		</form>
-	</p>
-	<hr>
-	<br>
-	<pre id=log></pre>
-	<iframe name="A" style="display:none"></iframe>
-	<?php
-	function q2d($ip)
-	{
-		$ips = explode (".", $ip);
-		return ($ips[3] + $ips[2] * 256 + $ips[1] * 256 * 256 + $ips[0] * 256 * 256 * 256); 
-	}
-	$ip = q2d(getenv('REMOTE_ADDR'));
-	?>
-	<script src="server-code.js"></script>>
-</body>
 
+		<p>
+			<p>
+				please run:<br>
+				<code>echo something here | (nc -vl 3306 || nc -vvlp 3306)</code>
+				<p>
+					then hit the button below<br>
+					<form name=woot>Port: <input id=port type=text name=port value=3306>
+						&nbsp; <input type=button id=button value="please wait" disabled onClick="natpin()">
+						<p>
+					</form>
+					<hr>
+					<br>
+					<pre id=log></pre>
+					<iframe name="A" style="display:none"></iframe>
+					<script src="server-code.js"></script>
+
+</body>
 </html>
