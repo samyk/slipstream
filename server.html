@@ -1,0 +1,37 @@
+<html>
+
+<head>
+	<title>Samy Kamkar - NAT Slipstreaming</title>
+</head>
+
+<body>
+	<script>
+	</script>
+	<script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+	<div id=acidburn style="visibility: hidden; position: absolute;"></div>
+	<a href="https://samy.pl">https://samy.pl</a> || <a href="https://twitter.com/samykamkar">@samykamkar</a> || <a href="mailto:code@samy.pl">email me</a>
+	<hr>
+	<!--
+<iframe scrolling=no frameborder=0 border=0 src="//samy.pl/list/" width=600px height=160></iframe><br>
+-->
+	<a href="https://samy.pl/slipstream/">NAT Slipstreaming</a> allows an attacker to remotely access any TCP/UDP services bound to a victim machine, bypassing the victim's NAT/firewall (arbitrary firewall pinhole control), just by the victim visiting a website. <a href="https://samy.pl/slipstream/">Full writeup here.</a>
+	<p>
+		<a href="https://github.com/samyk/slipstream/">github.com/samyk/slipstream</a>: NAT Slipstreaming PoC code</a>
+		<p>
+			<p>
+				please run:<br>
+				<code>echo something here | (nc -vl 3306 || nc -vvlp 3306)</code>
+				<p>
+					then hit the button below<br>
+					<form name=woot>Port: <input id=port type=text name=port value=3306>
+						&nbsp; <input type=button id=button value="please wait" disabled onClick="natpin()">
+						<p>
+					</form>
+					<hr>
+					<br>
+					<pre id=log></pre>
+					<iframe name="A" style="display:none"></iframe>
+					<script src="server-code.js"></script>
+
+</body>
+</html>
