@@ -1,11 +1,15 @@
 NAT Slipstreaming
 ======================
 
-[NAT Slipstreaming](https://samy.pl/slipstream/) allows an attacker to remotely access any TCP/UDP services bound to a victim machine, bypassing the victim's NAT/firewall (arbitrary firewall pinhole control), just by the victim visiting a website.
+<a href="https://samy.pl/slipstream/">NAT Slipstreaming</a> allows an attacker to remotely access any TCP/UDP service bound to <b>any system</b> behind a victim's NAT, bypassing the victim's NAT/firewall (remote arbitrary firewall pinhole control), just by the victim visiting a website.
 
-**Developed by**: [@SamyKamkar](https://twitter.com/samykamkar) // [https://samy.pl](https://samy.pl)
+<p><strong>v1 developed by</strong>: <a target=_blank href="https://twitter.com/samykamkar">@SamyKamkar</a> // <a target=_blank href="https://samy.pl">https://samy.pl</a><br>
+<strong>v2 developed by</strong>: Samy Kamkar && (Ben Seri && Gregory Vishnipolsky of <a target=_blank href="https://armis.com">Armis</a>).
 
-**Released**: October 31, 2020
+<strong>Read <a href="https://www.armis.com/natslipstreaming">Ben & Gregory's excellent technical writeup on v2 here</a></strong> which goes deep into their updates of v2 with plenty of additional details.
+
+<strong>v1 released</strong>: October 31 👻, 2020<br>
+<strong>v2 released</strong>: January 26, 2021
 
 **Source code**: <https://github.com/samyk/slipstream>
 
@@ -67,16 +71,22 @@ This attack requires the NAT/firewall to support ALG (Application Level Gateways
 - large UDP beacon sent from browser via WebRTC TURN authentication mechanism to non-standard port to attacker's server to force IP fragmentation with TURN `username` field stuffed
   - we perform a similar attack as our TCP segmentation, but over UDP as IP fragmentation will occur and provide different values than TCP segmentation
   - victim MTU size, IP header size, IP packet size, TCP header size, TCP segment sizes detected by server and sent back to victim's browser, used later for packet stuffing
-- "SIP packet" in new hidden form generated, containing internal IP to trigger Application Level Gateway connection tracking
+- (v1) "SIP packet" in new hidden form generated, containing internal IP to trigger Application Level Gateway connection tracking
   - "HTTP POST" to server on TCP port 5060 (SIP port) initiated, avoiding [restricted browser ports](https://github.com/samyk/chromium/blob/2d57e5b8afc6d01b344a8d95d3470d46b35845c5/net/base/port_util.cc#L20-L90)
   - POST data is "stuffed" to exact TCP segment size / packet boundary, then "SIP packet" appended and posted via web form
   - <b>victim IP stack breaks the POST into multiple TCP packets, leaving the "SIP packet" (as part of POST data) in its own TCP packet without any accompanying HTTP headers</b>
   - if browser alters size of multipart/form boundary (Firefox) or packet size changes for any other reason, size change is communicated back to client and client auto-resends with new size
   - when opening UDP port, SIP packet is sent over TURN protocol inside specially crafted `username` field forcing IP fragmentation and precise boundary control
-- victim NAT sees proper SIP REGISTER packet on SIP port (with no HTTP data), triggering ALG to open any TCP/UDP port defined in packet back to victim
-  - victim NAT rewrites SIP packet, replacing internal IP with public IP, hinting to attacker exploit was successful
-  - even if victim NAT normally rewrites source ports, the ALG will still be forced to port forward to the attacker's port of choice as it believes victim machine opened that port and attacker sees new source port in arriving SIP packet 
-  - <b>attacker can now bypass victim NAT and connect directly back to any port on victim's machine, exposing previously protected/hidden services</b>
+- (v2) "H.323 packet" using TCP-based STUN (bypassing patches for v1 and browser port restrictions) connection generated, containing internal IP to trigger Application Level Gateway connection tracking, but forcing a redirect to <strong>any other host on the network</strong> in a "call forwarding" packet
+ - "H.323 call forward" to server on TCP port 1720 (H.323 port) initiated, avoiding <a target=_blank href="https://github.com/samyk/chromium/blob/2d57e5b8afc6d01b344a8d95d3470d46b35845c5/net/base/port_util.cc#L20-L90">restricted browser ports</a>, despite the port being blocked -- port evasion performed by using WebRTC STUN feature which does not respect the restricted port list</li>
+ - <code>username</code> field is "stuffed" to exact TCP segment size / packet boundary, then &ldquo;H.323 packet&rdquo; appended and posted via web form</li>
+ - <b>victim IP stack breaks the POST into multiple TCP packets, leaving the "H.323 packet" (as part of STUN data) in its own TCP packet without any accompanying HTTP headers</b></li>
+ - if browser alters size of multipart/form boundary (Firefox) or packet size changes for any other reason, size change is communicated back to client and client auto-resends with new size</li>
+- victim NAT sees proper SIP REGISTER packet on SIP port or proper H.323 call forward packet (with no HTTP data), triggering ALG to open any TCP/UDP port defined in packet back to any victim host on the network
+   - victim NAT rewrites SIP or H.323 packet, replacing internal IP with public IP, hinting to attacker exploit was successful
+   - (v2) as H.323 call forwarding can direct to any other IP, packet can contain any internal IP of any other host on the victim's network, triggering the NAT to port forward to any system on the network
+   - even if victim NAT normally rewrites source ports, the ALG will still be forced to port forward to the attacker's port of choice as it believes victim machine (or other machine on the network, entirely determined by attacker) opened that port and attacker sees new source port in arriving SIP/H.323 packet 
+   - <b>attacker can now bypass victim NAT and connect directly back to any port on any machine on the network, exposing previously protected/hidden services and systems</b>
 - <i>to investigate...perhaps by you?</i>
   - non-malicious usage: this technique essentially gives browsers full TCP and UDP socket capability to communicate to any protocol locally on the system; the connection can be abstracted through a cloud server that connects back but the browser just talks to the cloud server as if it's the socket and makes browsers much more powerful to communicate on non-web-friendly protocols
   - if testing in a virtual machine (VM) using shared networking (used to protect a host from attacks by routing it through the host, not letting it directly onto the network), if the packets make it out, the parent host machine is where the ports end up getting opened, not the VM ;)
