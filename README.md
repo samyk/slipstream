@@ -99,7 +99,9 @@ This attack requires the NAT/firewall to support ALG (Application Level Gateways
 
 ## Network Address Port Translation (NAPT)
 
-We use NAPT (Netowrk Adress Port Translation) for several reasons. The most useful feature of NAT is that it allows a single public IP address to be shared among multiple systems. It does this by translating local/private ip addresses which are created by DHCP (Dynamic Host Configuration Protocol) for each device when a device joins the local network. When one of those systems reaches out to the Internet, it adds an entry to the NAPT table and it rewrites packets going out to use the public IP so responses come back to the NAT, and vice versa, rewriting destination IP to specific client's IP. It's the responsibility of the PNAT to differentiate connections to the same addresses/ports (google.com:443) from internal hosts as ultimately their outbound port, destination ip and source ip will all be the same. If two different internal peers attempt to connect from the same source port, modern NATs will alter one of the source ports (some networks do this to all TCP/UDP source ports).
+We use NAPT (Netowrk Adress Port Translation) for several reasons. The most useful feature of NAPT is that it allows a single public IP address to be shared among multiple systems. It does this by translating local/private ip addresses which are created by DHCP (Dynamic Host Configuration Protocol) for each device when a device joins the local network. When one of those systems reaches out to the Internet, it adds an entry to the NAPT table and it rewrites packets going out to use the public IP so responses come back to the NAPT, and vice versa, rewriting destination IP to specific client's IP.
+
+It's the responsibility of the PNAT to differentiate connections to the same addresses/ports (google.com:443) from internal hosts as ultimately their outbound port, destination ip and source ip will all be the same. If two different internal peers attempt to connect from the same source port, modern NAPTs will alter one of the source ports (some networks do this to all TCP/UDP source ports).
 
 ![NAT](img/lan.png)
 
