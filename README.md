@@ -6,7 +6,7 @@ NAT Slipstreaming
 <p><strong>v1 developed by</strong>: <a target=_blank href="https://twitter.com/samykamkar">@SamyKamkar</a> // <a target=_blank href="https://samy.pl">https://samy.pl</a><br>
 <strong>v2 developed by</strong>: Samy Kamkar && (Ben Seri && Gregory Vishnipolsky of <a target=_blank href="https://armis.com">Armis</a>).
 
-<strong>Read <a href="https://www.armis.com/natslipstreaming">Ben & Gregory's excellent technical writeup on v2 here</a></strong> which goes deep into their updates of v2 with plenty of additional details.
+<strong>Read <a href="https://www.armis.com/research/nat-slipstreaming-v20/">Ben & Gregory's excellent technical writeup on v2 here</a></strong> which goes deep into their updates of v2 with plenty of additional details.
 
 <strong>v1 released</strong>: October 31 👻, 2020<br>
 <strong>v2 released</strong>: January 26, 2021
